@@ -1,0 +1,283 @@
+LECTURE TRANSCRIPT: Object-Oriented Programming in Python - Classes and Objects
+Professor Smith, Computer Science 301
+Duration: ~90 minutes (excerpt of key concepts)
+
+---
+
+Alright everyone, settle in. Today we're diving deep into object-oriented programming, or OOP as everyone calls it. Now, if you've been writing Python scripts so far, you've probably been doing procedural programming—writing functions that operate on data. But OOP is a different paradigm entirely, and it's going to change how you think about organizing code.
+
+So let's start with the fundamentals. What is a class? A class is essentially a blueprint for creating objects. Think of it like a cookie cutter—the class is the cutter, and each cookie you make from it is an object, or instance. Every cookie has the same shape (defined by the cutter), but they're all separate physical objects, right?
+
+In Python, we define a class using the `class` keyword. Let me show you a simple example:
+
+```python
+class Dog:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def bark(self):
+        return f"{self.name} says woof!"
+```
+
+OK so what's happening here? The `__init__` method—that's the initializer, sometimes called the constructor—this runs when you create a new instance of the class. It takes `self`, which refers to the specific instance you're creating, plus the parameters name and age. We're assigning those parameters to attributes of the object using `self.name = name`. Those are instance variables—they belong to each specific object.
+
+Then we have a method called `bark` that also takes `self` as a parameter. Remember, `self` always refers to the instance calling the method. So if you have two Dog objects, one named Buddy and one named Max, each one has its own name and age.
+
+You create an instance like this:
+
+```python
+buddy = Dog("Buddy", 5)
+max_dog = Dog("Max", 3)
+
+print(buddy.bark())  # Output: Buddy says woof!
+print(max_dog.bark())  # Output: Max says woof!
+```
+
+See? Two separate objects, each with their own data. This is the power of OOP—you're bundling data and behavior together.
+
+Now, here's something important that trips up a lot of beginners. When you call `buddy.bark()`, you're not passing `buddy` as an argument, right? Python does that automatically. Behind the scenes, Python translates `buddy.bark()` into `Dog.bark(buddy)`. The instance becomes `self`. This is crucial to understand.
+
+Let me give you a real-world example. Imagine you're building a bank system. You could write it procedurally:
+
+```python
+# Procedural approach - DON'T DO THIS
+accounts = {}
+
+def create_account(account_number, balance):
+    accounts[account_number] = balance
+
+def withdraw(account_number, amount):
+    if accounts[account_number] >= amount:
+        accounts[account_number] -= amount
+        return True
+    return False
+```
+
+But this is messy and error-prone. What if you add interest rates or different account types? It gets chaotic. With OOP:
+
+```python
+# OOP approach - GOOD
+class BankAccount:
+    def __init__(self, account_number, initial_balance):
+        self.account_number = account_number
+        self.balance = initial_balance
+
+    def withdraw(self, amount):
+        if self.balance >= amount:
+            self.balance -= amount
+            return True
+        return False
+
+    def deposit(self, amount):
+        self.balance += amount
+
+    def check_balance(self):
+        return self.balance
+```
+
+Much cleaner! The data and the operations on that data are together. This is called encapsulation—bundling data and methods together.
+
+OK, so now let's talk about inheritance. Inheritance is when one class inherits properties and methods from another class. Why would you want this? Well, imagine you're building that bank system again, but now you have different types of accounts—savings accounts and checking accounts. They both share some common behavior, but they also have differences.
+
+Instead of duplicating code, you create a parent class with the common stuff:
+
+```python
+class BankAccount:
+    def __init__(self, account_number, balance):
+        self.account_number = account_number
+        self.balance = balance
+
+    def withdraw(self, amount):
+        if self.balance >= amount:
+            self.balance -= amount
+            return True
+        return False
+
+    def deposit(self, amount):
+        self.balance += amount
+```
+
+Then you create child classes that inherit from this:
+
+```python
+class SavingsAccount(BankAccount):
+    def __init__(self, account_number, balance, interest_rate):
+        super().__init__(account_number, balance)
+        self.interest_rate = interest_rate
+
+    def apply_interest(self):
+        self.balance *= (1 + self.interest_rate)
+
+class CheckingAccount(BankAccount):
+    def __init__(self, account_number, balance, monthly_fee):
+        super().__init__(account_number, balance)
+        self.monthly_fee = monthly_fee
+
+    def charge_fee(self):
+        self.balance -= self.monthly_fee
+```
+
+Notice the `super()` function? That calls the parent class's `__init__` method. You're saying "Hey parent class, initialize yourself with these parameters, and then I'll do my own setup." This avoids duplicating the initialization code.
+
+Now both SavingsAccount and CheckingAccount inherit the `withdraw` and `deposit` methods from BankAccount. You don't have to rewrite them! But each child class can add its own unique methods like `apply_interest` or `charge_fee`.
+
+This is huge for code reuse and maintenance. If you need to change how withdrawal works, you change it in one place, and all child classes automatically get the updated behavior.
+
+Now, let's talk about polymorphism. That's a fancy word that means "many forms." The idea is that different objects can respond to the same method in different ways.
+
+Let me show you:
+
+```python
+class Animal:
+    def make_sound(self):
+        pass
+
+class Dog(Animal):
+    def make_sound(self):
+        return "Woof!"
+
+class Cat(Animal):
+    def make_sound(self):
+        return "Meow!"
+
+class Cow(Animal):
+    def make_sound(self):
+        return "Moo!"
+
+# Polymorphism in action
+animals = [Dog(), Cat(), Cow()]
+for animal in animals:
+    print(animal.make_sound())
+```
+
+Each animal has a `make_sound` method, but they all behave differently. The code doesn't need to know what type of animal it is—it just calls `make_sound()` and gets the right behavior. This is polymorphism.
+
+Here's a common pitfall though. A lot of people—and I see this all the time in student code—they create classes for EVERYTHING. Every little thing becomes a class. That's overkill. Use classes when you have related data and methods that logically belong together. If you're just grouping random functions together, you don't need a class. Keep it simple.
+
+Another pitfall: not understanding what `self` is. Seriously, I can't stress this enough. `self` is the instance. When you do `self.name = name`, you're creating an attribute on that specific instance. Different instances have different attributes. If you forget this, your instances will interfere with each other.
+
+Actually, let me show you a common mistake:
+
+```python
+# WRONG - class attribute, not instance attribute
+class Counter:
+    count = 0  # This is a CLASS attribute
+
+    def __init__(self):
+        Counter.count += 1
+
+c1 = Counter()
+c2 = Counter()
+print(c1.count)  # 2, not 1!
+print(c2.count)  # 2
+```
+
+Both c1 and c2 are sharing the same `count` variable because it's defined on the class, not on the instance. This is a classic mistake. Here's the correct way:
+
+```python
+# CORRECT - instance attribute
+class Counter:
+    def __init__(self):
+        self.count = 1
+
+c1 = Counter()
+c2 = Counter()
+print(c1.count)  # 1
+print(c2.count)  # 1
+```
+
+Now each instance has its own count. They're completely separate.
+
+Here's another thing to watch out for: mutable default arguments in methods. Actually, let me just show you:
+
+```python
+class UserList:
+    def __init__(self, users=[]):  # DON'T DO THIS
+        self.users = users
+
+u1 = UserList()
+u1.users.append("Alice")
+
+u2 = UserList()
+print(u2.users)  # ['Alice'] - WAIT, WHAT?
+```
+
+The empty list is evaluated once when the class is defined, not each time you create an instance. So all instances share the same list. The correct way:
+
+```python
+class UserList:
+    def __init__(self, users=None):
+        self.users = users if users is not None else []
+
+u1 = UserList()
+u1.users.append("Alice")
+
+u2 = UserList()
+print(u2.users)  # [] - Correct!
+```
+
+Now each instance gets its own fresh list.
+
+One more important concept: encapsulation. In some languages like Java, you can make attributes private using the `private` keyword. Python doesn't have true private attributes, but by convention, you prefix them with an underscore. This tells other programmers, "Hey, don't access this directly, use the methods instead."
+
+```python
+class BankAccount:
+    def __init__(self, account_number, balance):
+        self._balance = balance  # Convention: this is private
+        self.account_number = account_number
+
+    def get_balance(self):
+        return self._balance
+
+    def deposit(self, amount):
+        if amount > 0:
+            self._balance += amount
+```
+
+You COULD do `account._balance = 1000000` and mess with the balance directly, but you shouldn't. By using a method, you can add validation. The deposit method checks that the amount is positive, for example. This protects your data.
+
+Actually, there's also the `@property` decorator in Python that lets you make it look like you're accessing an attribute but you're actually calling a method:
+
+```python
+class BankAccount:
+    def __init__(self, balance):
+        self._balance = balance
+
+    @property
+    def balance(self):
+        return self._balance
+
+    @balance.setter
+    def balance(self, amount):
+        if amount < 0:
+            raise ValueError("Balance cannot be negative")
+        self._balance = amount
+
+account = BankAccount(1000)
+print(account.balance)  # Looks like accessing attribute
+account.balance = 2000  # Looks like setting attribute
+```
+
+But behind the scenes, you're calling the getter and setter methods. This gives you control and validation.
+
+Alright, let me recap the main points because I know this is a lot to absorb:
+
+One: A class is a blueprint. Instances are the actual objects you create from that blueprint.
+
+Two: `self` refers to the specific instance. Always remember that.
+
+Three: Encapsulation means bundling data and methods together.
+
+Four: Inheritance lets you create a hierarchy of classes that share common behavior.
+
+Five: Polymorphism lets different objects respond differently to the same method.
+
+Six: Don't make a class for everything. Use them when you have cohesive data and behavior.
+
+And the pitfalls: Remember about class vs instance attributes, watch out for mutable defaults, understand that `self` is passed automatically, and use conventions like underscore prefixes for private data.
+
+Questions before we move on? Anyone? OK, we'll do some exercises next, and then we'll talk about more advanced concepts like abstract base classes and composition.
+
+---
+END OF LECTURE EXCERPT

@@ -1,0 +1,126 @@
+{
+  "skill_name": "lecture-to-markdown-notes",
+  "description": "Test cases for validating the lecture-to-markdown-notes skill across different lecture types",
+  "created": "2026-11-14",
+  "evals": [
+    {
+      "id": 1,
+      "name": "programming-oop-python",
+      "file": "test-case-1-programming.txt",
+      "topic": "Object-Oriented Programming in Python: Classes and Objects",
+      "type": "programming",
+      "description": "Python lecture on classes, objects, inheritance, polymorphism with realistic code examples and common pitfalls",
+      "word_count": 1850,
+      "key_elements": [
+        "Class definition and instantiation",
+        "Instance vs class attributes",
+        "Methods and self parameter",
+        "Inheritance and super()",
+        "Polymorphism",
+        "Common pitfalls (mutable defaults, class vs instance attributes)",
+        "Encapsulation and private attributes"
+      ],
+      "expected_output_features": [
+        "Code blocks with Python syntax highlighting",
+        "Concepts explained clearly with examples",
+        "Inheritance and polymorphism demonstrated",
+        "Common pitfalls highlighted",
+        "Content reorganized logically from original lecture order",
+        "Inline examples for each concept"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "stem-linear-algebra",
+      "file": "test-case-2-stem.txt",
+      "topic": "Linear Algebra: Matrix Operations and Applications",
+      "type": "stem",
+      "description": "Mathematics lecture on matrix operations, determinants, inverses, eigenvalues, and real-world applications",
+      "word_count": 1920,
+      "key_elements": [
+        "Matrix definition and notation",
+        "Matrix addition and scalar multiplication",
+        "Matrix multiplication (not element-wise)",
+        "Linear transformations",
+        "Determinants and their meaning",
+        "Matrix inverses and solving Ax=b",
+        "Eigenvalues and eigenvectors",
+        "Matrix rank",
+        "Applications in graphics and machine learning"
+      ],
+      "expected_output_features": [
+        "LaTeX equations properly formatted",
+        "Step-by-step calculations shown clearly",
+        "Geometric interpretations explained",
+        "Real-world applications mentioned",
+        "Notation clearly defined",
+        "Examples worked through completely",
+        "Connections between concepts"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "humanities-industrial-revolution",
+      "file": "test-case-3-humanities.txt",
+      "topic": "The Industrial Revolution: Social and Economic Transformation",
+      "type": "humanities",
+      "description": "History lecture covering causes, key figures, technological innovations, and societal impacts of industrialization",
+      "word_count": 1980,
+      "key_elements": [
+        "Preconditions for industrialization in Britain",
+        "Key inventions (Spinning Jenny, Power Loom, Steam Engine)",
+        "Working conditions and labor exploitation",
+        "Key figures (Hargreaves, Watt, Arkwright, Owen, Stephenson)",
+        "Rise of new classes (industrialists, middle class, working class)",
+        "Labor movements and resistance (Luddites)",
+        "Environmental impacts",
+        "Connection to colonialism and imperialism",
+        "Long-term legacy and ongoing impacts"
+      ],
+      "expected_output_features": [
+        "Historical context clearly established",
+        "Timeline of key events and inventions",
+        "Key figures highlighted with significance",
+        "Causes and consequences explained",
+        "Multiple perspectives presented (factory owners vs workers)",
+        "Social and economic changes connected",
+        "Modern relevance acknowledged"
+      ]
+    }
+  ],
+  "success_criteria": {
+    "general": [
+      "All key concepts extracted and explained in clear, accessible language",
+      "Proper markdown formatting (valid syntax)",
+      "Consistent hierarchy (H2 for sections, H3 for subsections, no level jumps)",
+      "Appropriate inline examples (minimum 1-2 per concept)",
+      "Tables and code blocks used when relevant",
+      "Content reorganized logically, not in original lecture order",
+      "Readable in 15-25 minutes",
+      "Notes are standalone (don't require referencing original source)"
+    ],
+    "programming": [
+      "Code examples use appropriate syntax highlighting",
+      "Concepts build logically from classes to inheritance to polymorphism",
+      "Common pitfalls and edge cases highlighted",
+      "Examples demonstrate practical applications",
+      "Terminology clearly defined"
+    ],
+    "stem": [
+      "Mathematical notation properly formatted",
+      "Step-by-step derivations and calculations clear",
+      "Geometric or visual intuition explained",
+      "Applications mentioned with context",
+      "Prerequisites identified if needed"
+    ],
+    "humanities": [
+      "Historical context provided for understanding",
+      "Timeline of major events clear",
+      "Key figures and their roles highlighted",
+      "Multiple perspectives or interpretations presented",
+      "Causes and consequences explicitly connected",
+      "Modern relevance or legacy discussed"
+    ]
+  },
+  "notes": "These test cases are designed to be realistic lecture excerpts that test the skill's ability to handle different content types. They include natural lecture elements like tangents, repetition, varying detail levels, and conversational tone. The skill should reorganize, reformat, and structure them into clean, studyable notes."
+}
